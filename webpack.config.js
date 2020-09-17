@@ -1,34 +1,42 @@
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
-
 module.exports = {
-    // 入口
-    entry: __dirname + '/src/render.js',
-    // 出口
-    output: {
-        path: __dirname + '/dist',
-        filename: 'bundle.js'
-    },
-    // 生成 source-map，用于调试
-    // devtool: 'source-map',
-    // 打包模式 development production
-    mode: 'development',
-    // 热刷新配置
-    devServer: {
-        // 静态目录
-        contentBase: __dirname + '/public',
-        // 端口
-        port: '8080',
-        // 是否开启热刷新
-        inline: true,
-        // 单页应用所有跳转指向 index.html
-        historyApiFallback: true
-    },
-    plugins: [
-        new webpack.BannerPlugin('版权所有'),
-        new HtmlWebpackPlugin({
-            title: 'NC',
-            template: __dirname + '/public/index.html'
-        })
-    ]
+  // 热刷新配置
+  devServer: {
+    // 静态目录
+    contentBase: __dirname + '/public',
+    // 端口
+    port: '8080',
+    // 是否开启热刷新
+    inline: true,
+    // 单页应用所有跳转指向 index.html
+    historyApiFallback: true
+  },
+  // 入口
+  entry: __dirname + '/src/render.js',
+  // 出口
+  output: {
+    path: __dirname + '/dist',
+    filename: 'bundle-[hash].js'
+  },
+  // 生成 source-map，用于调试
+  // devtool: 'source-map',
+  // 打包模式 development production
+  mode: 'production',
+  plugins: [
+    // 复制 public 静态资源
+    new CopyWebpackPlugin({
+      patterns: [{ from: __dirname + "/public", to: __dirname + "/dist" }]
+    }),
+    new webpack.BannerPlugin('版权所有'),
+    // 前端模板
+    new HtmlWebpackPlugin({
+      template: __dirname + '/public/index.html'
+    }),
+    // 清空文件
+    new CleanWebpackPlugin(),
+  ]
 }
+

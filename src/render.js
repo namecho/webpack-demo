@@ -1,1 +1,2 @@
-document.querySelector('#app').innerHTML = 'Hello World!'
+import helloworld from './helloworld'
+helloworld.show()
