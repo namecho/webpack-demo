@@ -15,7 +15,7 @@ module.exports = {
     historyApiFallback: true
   },
   // 入口
-  entry: __dirname + '/src/render.js',
+  entry: __dirname + '/src/index.js',
   // 出口
   output: {
     path: __dirname + '/dist',
@@ -25,6 +25,26 @@ module.exports = {
   // devtool: 'source-map',
   // 打包模式 development production
   mode: 'production',
+
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  },
   plugins: [
     // 复制 public 静态资源
     new CopyWebpackPlugin({
